@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一年级国语学习平台 - BM Learning Hub</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for children-friendly modern education look -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Fredoka', 'Noto Sans SC', sans-serif;
+      background-color: #f3f4f6;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    /* Smooth CSS animations for matching card elimination */
+    .matching-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-eliminated {
+      opacity: 0 !important;
+      transform: scale(0.8) translateY(-10px) !important;
+      pointer-events: none !important;
+    }
+  </style>
+</head>
+<body class="h-screen overflow-hidden flex flex-col md:flex-row">
+
+  <!-- SIDEBAR (LEFT) -->
+  <aside class="w-full md:w-80 bg-white border-r border-gray-200 flex flex-col justify-between shrink-0 h-1/4 md:h-full z-10 shadow-sm">
+    <div>
+      <!-- Platform Logo -->
+      <div class="p-5 border-b border-gray-100 flex items-center justify-between bg-sky-500 text-white">
+        <div class="flex items-center gap-3">
+          <div class="bg-white text-sky-600 p-2 rounded-xl shadow-inner">
+            <i data-lucide="book-open" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-lg leading-tight">一年级国语</h1>
+            <p class="text-xs text-sky-100 font-medium">SJKC Bahasa Melayu</p>
+          </div>
+        </div>
+        <button class="bg-sky-600/30 hover:bg-sky-600/50 p-2 rounded-lg text-white" onclick="toggleSidebarMobile()">
+          <i data-lucide="settings" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Navigation Units (Menu Directory) -->
+      <div class="p-4 space-y-2 max-h-[45vh] md:max-h-none overflow-y-auto custom-scrollbar" id="sidebar-units">
+        <div class="text-xs text-gray-400 font-bold px-3 uppercase tracking-wider mb-2">目录</div>
+        
+        <!-- Unit 1 -->
+        <button onclick="switchUnit(0)" id="unit-btn-0" class="unit-btn w-full flex items-center justify-between p-3.5 rounded-xl transition text-left bg-sky-50 border border-sky-100 text-sky-700">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">📚</span>
+            <div>
+              <div class="font-semibold text-sm">单元 1: 基本日常</div>
+              <p class="text-xs opacity-80">Sentiasa, Pelajaran, Membawa...</p>
+            </div>
+          </div>
+          <span class="text-xs bg-sky-200 text-sky-800 px-2 py-0.5 rounded-full font-bold">13 词</span>
+        </button>
+
+        <!-- Unit 2 -->
+        <button onclick="switchUnit(1)" id="unit-btn-1" class="unit-btn w-full flex items-center justify-between p-3.5 rounded-xl transition text-left text-gray-600 hover:bg-gray-50 border border-transparent">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🌱</span>
+            <div>
+              <div class="font-semibold text-sm">单元 2: 生活行为</div>
+              <p class="text-xs text-gray-400">Tumbesaran, Hidup, Tenaga...</p>
+            </div>
+          </div>
+          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-bold">15 词</span>
+        </button>
+
+        <!-- Unit 3 -->
+        <button onclick="switchUnit(2)" id="unit-btn-2" class="unit-btn w-full flex items-center justify-between p-3.5 rounded-xl transition text-left text-gray-600 hover:bg-gray-50 border border-transparent">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🚦</span>
+            <div>
+              <div class="font-semibold text-sm">单元 3: 公共设施</div>
+              <p class="text-xs text-gray-400">Lampu, Penting, Pengguna...</p>
+            </div>
+          </div>
+          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-bold">13 词</span>
+        </button>
+
+        <!-- Unit 4 -->
+        <button onclick="switchUnit(3)" id="unit-btn-3" class="unit-btn w-full flex items-center justify-between p-3.5 rounded-xl transition text-left text-gray-600 hover:bg-gray-50 border border-transparent">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🩹</span>
+            <div>
+              <div class="font-semibold text-sm">单元 4: 行为与安全</div>
+              <p class="text-xs text-gray-400">Semasa, Beratur, Melintas...</p>
+            </div>
+          </div>
+          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-bold">15 词</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Student Profile (Instructor changed to Penielau) -->
+    <div class="p-4 border-t border-gray-100 bg-gray-50/80">
+      <div class="bg-white p-3 rounded-xl border border-gray-100 flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-xs text-gray-400">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+          <span id="voice-status-text">正在初始化标准国语语音合成...</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-sky-600 font-bold">
+            P
+          </div>
+          <div class="overflow-hidden">
+            <h4 class="font-bold text-xs text-gray-700 truncate">penielau@gmail.com</h4>
+            <span class="inline-block text-[10px] bg-sky-100 text-sky-700 px-2 py-0.2 rounded-full font-bold">学生 (STUDENT)</span>
+          </div>
+        </div>
+        <div class="text-[11px] text-gray-400 flex items-center justify-between pt-1 border-t border-gray-100">
+          <span>指导老师: Penielau</span>
+          <button class="text-rose-500 font-bold hover:underline">退出登录</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="flex-grow flex flex-col h-3/4 md:h-full overflow-hidden bg-slate-50">
+    
+    <!-- Top Nav Header -->
+    <header class="bg-white border-b border-gray-200 px-6 py-4 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 shrink-0">
+      <div>
+        <h2 id="current-unit-title" class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <span>单元 1: 基本日常词汇</span>
+        </h2>
+      </div>
+      
+      <!-- Sub-Learning Modes Switcher Buttons -->
+      <div class="flex flex-wrap gap-2">
+        <button onclick="switchTab('flashcards')" id="tab-flashcards" class="learning-tab flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition border bg-sky-500 border-sky-500 text-white shadow-sm">
+          <i data-lucide="book-open-check" class="w-4 h-4"></i>
+          <span>词卡学习</span>
+        </button>
+        <button onclick="switchTab('listening')" id="tab-listening" class="learning-tab flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition border border-gray-200 bg-white text-gray-600 hover:bg-gray-50">
+          <i data-lucide="volume-2" class="w-4 h-4"></i>
+          <span>听音选词</span>
+        </button>
+        <button onclick="switchTab('matching')" id="tab-matching" class="learning-tab flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition border border-gray-200 bg-white text-gray-600 hover:bg-gray-50">
+          <i data-lucide="layers" class="w-4 h-4"></i>
+          <span>图文连线</span>
+        </button>
+        <button onclick="switchTab('quiz')" id="tab-quiz" class="learning-tab flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition border border-gray-200 bg-white text-gray-600 hover:bg-gray-50">
+          <i data-lucide="trophy" class="w-4 h-4"></i>
+          <span>20题挑战</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Language Filter / Utility Sub-Bar -->
+    <div class="bg-white border-b border-slate-100 px-6 py-3 flex flex-wrap justify-between items-center gap-4 shrink-0">
+      <div class="flex items-center gap-3">
+        <span class="text-xs text-gray-400 font-bold flex items-center gap-1">
+          <i data-lucide="eye" class="w-3.5 h-3.5"></i> 显示语言:
+        </span>
+        <label class="flex items-center gap-1.5 text-xs text-gray-600 font-bold bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg cursor-pointer transition">
+          <input type="checkbox" id="toggle-pinyin" checked onchange="toggleTranslations()" class="rounded text-sky-500">
+          <span>马来文字卡 (BM)</span>
+        </label>
+        <label class="flex items-center gap-1.5 text-xs text-gray-600 font-bold bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg cursor-pointer transition">
+          <input type="checkbox" id="toggle-chinese" checked onchange="toggleTranslations()" class="rounded text-sky-500">
+          <span>中文释义 (CN)</span>
+        </label>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <button onclick="autoReadAloudAll()" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm flex items-center gap-2 transition">
+          <i data-lucide="play-circle" class="w-4 h-4"></i>
+          <span>自动顺序朗读全部</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PRIMARY WORKSPACE -->
+    <div class="flex-grow overflow-y-auto p-6" id="workspace-container">
+
+      <!-- ===================================== -->
+      <!-- TAB 1: FLASHCARDS (词卡学习) -->
+      <!-- ===================================== -->
+      <section id="pane-flashcards" class="workspace-pane">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="cards-grid">
+          <!-- JS Dynamic Grid Loading Cards -->
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- TAB 2: LISTENING TEST (听音选词) -->
+      <!-- ===================================== -->
+      <section id="pane-listening" class="workspace-pane hidden max-w-2xl mx-auto bg-white border border-gray-100 p-8 rounded-3xl shadow-sm space-y-6 text-center">
+        <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+          <span class="text-xs bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full uppercase tracking-wider">听音训练</span>
+          <button onclick="restartActiveTab()" class="text-xs bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 transition">
+            <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i> 换一组题 🔄
+          </button>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">请听标准声音，选择正确的马来语拼写！</h3>
+
+        <!-- Huge Audio Playback Trigger Button -->
+        <button onclick="playListenTestAudio()" class="w-32 h-32 mx-auto rounded-full bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center shadow-md transition transform active:scale-95 group">
+          <i data-lucide="volume-2" class="w-16 h-16 group-hover:scale-110 transition"></i>
+        </button>
+        <p class="text-sm text-gray-400">点击按钮再次收听</p>
+
+        <!-- Dynamic Answer Options Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4" id="listening-options">
+          <!-- JS dynamic -->
+        </div>
+
+        <div id="listening-feedback" class="hidden p-4 rounded-2xl text-center font-bold"></div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+          <span class="text-sm text-gray-500">进度: <strong id="listen-progress" class="text-sky-600">1/10</strong></span>
+          <button onclick="nextListenQuestion()" id="listen-next-btn" class="bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold px-6 py-2.5 rounded-xl shadow transition hidden">下一题 ➡️</button>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- TAB 3: VISUAL MATCHING (图文配对) -->
+      <!-- ===================================== -->
+      <section id="pane-matching" class="workspace-pane hidden max-w-4xl mx-auto space-y-4">
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-2xl text-center text-sm text-blue-800 font-bold">
+          💡 规则：点击左侧的国语单词，再点击右侧对应的华语意思进行配对。连对即可消除！每次练习都自动生成全新的随机题目！
+        </div>
+
+        <div class="grid grid-cols-2 gap-12 relative" id="matching-board">
+          <!-- Column Left (BM) -->
+          <div class="flex flex-col gap-3" id="match-col-left"></div>
+          
+          <!-- Column Right (CN) -->
+          <div class="flex flex-col gap-3" id="match-col-right"></div>
+        </div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-slate-200">
+          <span class="text-sm text-gray-500">已成功配对: <strong id="match-score" class="text-emerald-600">0</strong> / 8</span>
+          <button onclick="resetMatchingGame()" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1 transition">
+            <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i> 换一组题 🔄
+          </button>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- TAB 4: 20-QUESTION EXERCISE QUIZ (20题单元测验) -->
+      <!-- ===================================== -->
+      <section id="pane-quiz" class="workspace-pane hidden max-w-2xl mx-auto space-y-6">
+        <!-- Progress Bar -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+          <div>
+            <span class="text-xs text-sky-600 font-bold uppercase tracking-wider">测验进度</span>
+            <div class="w-48 bg-gray-200 rounded-full h-2.5 mt-1 overflow-hidden">
+              <div id="quiz-progress-bar" class="bg-sky-500 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 text-right">
+            <div>
+              <span class="text-xs text-gray-400">当前题数</span>
+              <div class="text-lg font-bold text-sky-600" id="quiz-progress-text">1 / 20</div>
+            </div>
+            <button onclick="restartActiveTab()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold p-2 rounded-xl flex items-center gap-1 transition" title="重新出题">
+              <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Box -->
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 text-center space-y-4 shadow-sm relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-sky-400 to-emerald-400"></div>
+          <span class="text-xs bg-sky-50 text-sky-700 px-3 py-1 rounded-full font-bold uppercase" id="quiz-question-type">国译中</span>
+          <h2 class="text-3xl font-extrabold text-gray-800 tracking-wide" id="quiz-question-text">sentiasa</h2>
+          <p class="text-sm text-gray-400">请选出正确对应的意思</p>
+        </div>
+
+        <!-- Answers Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="quiz-options">
+          <!-- JS Dynamic Buttons -->
+        </div>
+
+        <!-- Correct/Incorrect Feedback -->
+        <div id="quiz-feedback" class="hidden bg-white p-5 rounded-2xl border border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="flex items-center gap-3 text-left">
+            <span id="quiz-feedback-icon" class="text-3xl">🎉</span>
+            <div>
+              <h4 id="quiz-feedback-title" class="font-bold text-lg">回答正确</h4>
+              <p id="quiz-feedback-desc" class="text-gray-500 text-xs"></p>
+            </div>
+          </div>
+          <button onclick="nextQuizQuestion()" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-bold py-2.5 px-6 rounded-xl shadow-md transition">
+            下一题 ➡️
+          </button>
+        </div>
+      </section>
+
+      <!-- ===================================== -->
+      <!-- RESULT VIEW (公共结果结算屏) -->
+      <!-- ===================================== -->
+      <section id="pane-results" class="hidden max-w-md mx-auto bg-white border border-gray-100 p-8 rounded-3xl shadow-lg text-center space-y-6">
+        <span class="text-5xl inline-block animate-bounce">🏆</span>
+        <div class="space-y-1">
+          <h3 class="text-2xl font-black text-gray-800">学习测试完成！</h3>
+          <p class="text-sm text-gray-400">练习成果汇总单</p>
+        </div>
+
+        <div class="bg-sky-50 p-6 rounded-2xl border border-sky-100">
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-bold">答对题数得分</span>
+          <div class="text-5xl font-black text-sky-600 my-1" id="results-score-text">18 / 20</div>
+          <span class="text-sm font-semibold text-sky-800" id="results-evaluation">真棒！继续努力！</span>
+        </div>
+
+        <div class="flex gap-4">
+          <button onclick="switchTab('flashcards')" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl transition">温习卡片</button>
+          <button onclick="restartActiveTab()" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl shadow-md transition">重新挑战 🔄</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    const database = [
+      {
+        id: 1,
+        title: "单元 1: 基本日常词汇",
+        emoji: "📚",
+        words: [
+          { m: "sentiasa", c: "总是", e: "🔄" },
+          { m: "pelajaran", c: "学业", e: "📚" },
+          { m: "membawa", c: "带", e: "🎒" },
+          { m: "apabila", c: "当...时 / semasa", e: "⏰" },
+          { m: "melawat", c: "探望", e: "🧑‍🤝‍🧑" },
+          { m: "kerana", c: "因为", e: "❓" },
+          { m: "berasa", c: "感到", e: "❤️" },
+          { m: "mengetahui", c: "知道", e: "💡" },
+          { m: "mendapat", c: "获得", e: "🏆" },
+          { m: "tempat pertama", c: "第一名", e: "🥇" },
+          { m: "dalam", c: "在...中", e: "📥" },
+          { m: "pertandingan", c: "比赛", e: "🏁" },
+          { m: "bercerita", c: "讲故事", e: "🗣️" }
+        ]
+      },
+      {
+        id: 2,
+        title: "单元 2: 生活行为与特征",
+        emoji: "🌱",
+        words: [
+          { m: "tumbesaran", c: "成长", e: "🌱" },
+          { m: "hidup", c: "生存", e: "🌍" },
+          { m: "tenaga", c: "能量", e: "⚡" },
+          { m: "kamu", c: "你", e: "🫵" },
+          { m: "berdisiplin", c: "守纪律", e: "👮" },
+          { m: "bersabar", c: "有耐心", e: "⏳" },
+          { m: "pemandu", c: "驾驶员", e: "🚗" },
+          { m: "harus", c: "必须", e: "⚠️" },
+          { m: "hampir", c: "近", e: "🔍" },
+          { m: "melarang", c: "禁止", e: "🚫" },
+          { m: "lantai", c: "地", e: "🧱" },
+          { m: "pinggan", c: "盘", e: "🍽️" },
+          { m: "jangan", c: "别", e: "🙅" },
+          { m: "laju", c: "快", e: "⚡" },
+          { m: "menunggu", c: "等", e: "🕒" }
+        ]
+      },
+      {
+        id: 3,
+        title: "单元 3: 公共设施与标示",
+        emoji: "🚦",
+        words: [
+          { m: "lampu", c: "灯", e: "💡" },
+          { m: "lampu isyarat", c: "红绿灯", e: "🚦" },
+          { m: "penting", c: "重要", e: "🌟" },
+          { m: "pengguna", c: "使用者", e: "👥" },
+          { m: "tercicir", c: "弄丢", e: "💸" },
+          { m: "mahu / ingin / hendak", c: "要", e: "💭" },
+          { m: "menampal", c: "张贴", e: "📌" },
+          { m: "papan", c: "木板", e: "🪵" },
+          { m: "papan kenyataan", c: "布告栏", e: "📋" },
+          { m: "adalah", c: "是", e: "✅" },
+          { m: "daripada", c: "从", e: "⬅️" },
+          { m: "kepada", c: "对", e: "➡️" },
+          { m: "pada", c: "在...上", e: "🔝" }
+        ]
+      },
+      {
+        id: 4,
+        title: "单元 4: 行为动作与安全",
+        emoji: "🩹",
+        words: [
+          { m: "semasa", c: "当时", e: "⏱️" },
+          { m: "beratur", c: "排队", e: "🚶‍♂️" },
+          { m: "melintas", c: "过", e: "🛣️" },
+          { m: "penumpang", c: "乘客们", e: "🚌" },
+          { m: "kanan", c: "右", e: "➡️" },
+          { m: "kiri", c: "左", e: "⬅️" },
+          { m: "meminta", c: "要求", e: "🤲" },
+          { m: "memasang", c: "安装", e: "🛠" },
+          { m: "menyapu ubat", c: "涂抹药", e: "🩹" },
+          { m: "berpesan", c: "吩咐", e: "🗣️" },
+          { m: "menghantar", c: "派送", e: "📦" },
+          { m: "mendapat hadiah", c: "获得礼物", e: "🎁" },
+          { m: "baru", c: "刚", e: "✨" },
+          { m: "luka", c: "伤口", e: "🩹" },
+          { m: "terpijak kaca", c: "踩到玻璃", e: "🦶" }
+        ]
+      }
+    ];
+
+    // Global Active States
+    let activeUnitIndex = 0;
+    let activeTab = 'flashcards'; // flashcards, listening, matching, quiz
+    
+    // Audio configuration (Standard Malaysian Malay Voice prioritisation)
+    let malayVoice = null;
+    function loadVoices() {
+      if (typeof speechSynthesis !== 'undefined') {
+        const voices = window.speechSynthesis.getVoices();
+        // Look explicitly for ms-MY or ms, fallback to id (Indonesian shares standard orthography and sounds)
+        malayVoice = voices.find(v => v.lang.includes('ms-MY') || v.lang === 'ms-MY' || v.lang.startsWith('ms_')) ||
+                     voices.find(v => v.lang.includes('ms') || v.lang.includes('id-ID')) || null;
+        
+        const voiceStatus = document.getElementById('voice-status-text');
+        if (voiceStatus) {
+          if (malayVoice) {
+            voiceStatus.innerText = `已连接标准国语发音 (🇲🇾 ${malayVoice.name})`;
+            voiceStatus.parentElement.querySelector('span').className = "inline-block w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse";
+          } else {
+            voiceStatus.innerText = "已加载系统国语发音 (标准马来语调)";
+            voiceStatus.parentElement.querySelector('span').className = "inline-block w-2.5 h-2.5 rounded-full bg-yellow-500";
+          }
+        }
+      }
+    }
+    if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    loadVoices();
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Stop current speech
+        const utterance = new SpeechSynthesisUtterance(text);
+        if (malayVoice) {
+          utterance.voice = malayVoice;
+        } else {
+          utterance.lang = 'ms-MY'; // Force standard Malay locale
+        }
+        utterance.rate = 0.82; // Gently slower pace for perfect primary school phonetic understanding
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function renderFlashcards() {
+      const grid = document.getElementById('cards-grid');
+      grid.innerHTML = '';
+      
+      const words = database[activeUnitIndex].words;
+      const displayPinyin = document.getElementById('toggle-pinyin').checked;
+      const displayChinese = document.getElementById('toggle-chinese').checked;
+
+      words.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl border border-gray-100 p-6 flex flex-col justify-between items-center text-center shadow-sm hover:shadow-md transition duration-300 relative group";
+        
+        card.innerHTML = `
+          <!-- Top Toolbar on card -->
+          <div class="absolute top-3 right-3 flex gap-1 opacity-60 group-hover:opacity-100 transition">
+            <button onclick="speakText('${item.m}')" class="p-1.5 rounded-lg bg-sky-50 text-sky-600 hover:bg-sky-100 transition" title="朗读">
+              <i data-lucide="volume-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Illustrated Emoji Concept -->
+          <div class="w-16 h-16 rounded-2xl bg-sky-50 flex items-center justify-center text-3xl mb-4">
+            ${item.e || '🇲🇾'}
+          </div>
+
+          <!-- Malay Vocabulary Word -->
+          <div class="space-y-1">
+            <h3 class="text-lg font-bold text-gray-800 tracking-wide ${displayPinyin ? '' : 'invisible'}">${item.m}</h3>
+            <!-- Chinese Translation Display -->
+            <p class="text-sm font-semibold text-emerald-600 ${displayChinese ? '' : 'hidden'}" id="cn-translation-${index}">${item.c}</p>
+          </div>
+
+          <!-- Bottom Click/Reveal explanation toggle -->
+          <div class="mt-4 pt-3 border-t border-slate-100 w-full flex justify-between items-center text-xs text-gray-400">
+            <label class="flex items-center gap-1 cursor-pointer">
+              <input type="checkbox" checked onchange="toggleIndividualExplain(this, ${index})" class="rounded text-sky-500">
+              <span>解释</span>
+            </label>
+            <button onclick="speakText('${item.m}')" class="text-sky-500 hover:underline flex items-center gap-1 font-semibold">
+              <i data-lucide="play" class="w-3 h-3"></i> 点击朗读
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    function toggleIndividualExplain(checkbox, idx) {
+      const p = document.getElementById(`cn-translation-${idx}`);
+      if (p) {
+        if (checkbox.checked) {
+          p.classList.remove('hidden');
+        } else {
+          p.classList.add('hidden');
+        }
+      }
+    }
+
+    function toggleTranslations() {
+      if (activeTab === 'flashcards') {
+        renderFlashcards();
+      }
+    }
+
+    // Auto voice queue sequencer
+    function autoReadAloudAll() {
+      const words = database[activeUnitIndex].words;
+      let idx = 0;
+      function readNext() {
+        if (idx < words.length) {
+          speakText(words[idx].m);
+          idx++;
+          setTimeout(readNext, 2100); 
+        }
+      }
+      readNext();
+    }
+
+    // =====================================
+    // RENDER & PLAY: LISTENING TEST
+    // =====================================
+    let listeningQuestions = [];
+    let currentListenIndex = 0;
+    let listeningScore = 0;
+
+    function buildListeningTest() {
+      const activeWords = database[activeUnitIndex].words;
+      // Guarantee randomization, pull up to 10 unique words
+      listeningQuestions = shuffleArray([...activeWords]).slice(0, 10);
+      currentListenIndex = 0;
+      listeningScore = 0;
+    }
+
+    function renderListeningQuestion() {
+      const currentQuestion = listeningQuestions[currentListenIndex];
+      
+      document.getElementById('listen-progress').innerText = `${currentListenIndex + 1} / 10`;
+      document.getElementById('listen-next-btn').classList.add('hidden');
+      
+      const feedback = document.getElementById('listening-feedback');
+      feedback.classList.add('hidden');
+
+      const optionsContainer = document.getElementById('listening-options');
+      optionsContainer.innerHTML = '';
+
+      let choices = [currentQuestion.m];
+      const distractors = database[activeUnitIndex].words
+        .filter(w => w.m !== currentQuestion.m)
+        .map(w => w.m);
+
+      const shuffledDistractors = shuffleArray(distractors);
+      for (let i = 0; i < 3 && i < shuffledDistractors.length; i++) {
+        choices.push(shuffledDistractors[i]);
+      }
+      choices = shuffleArray(choices);
+
+      choices.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "listening-opt-btn bg-white hover:bg-slate-50 border-2 border-slate-100 p-4 rounded-2xl font-bold text-gray-700 transition transform hover:-translate-y-0.5 active:scale-95 shadow-sm text-center";
+        btn.innerText = opt;
+        btn.onclick = () => checkListeningAnswer(opt, btn, currentQuestion.m);
+        optionsContainer.appendChild(btn);
+      });
+
+      // Standard Malay auto speak on question load
+      setTimeout(() => {
+        speakText(currentQuestion.m);
+      }, 350);
+    }
+
+    function playListenTestAudio() {
+      const currentQuestion = listeningQuestions[currentListenIndex];
+      speakText(currentQuestion.m);
+    }
+
+    function checkListeningAnswer(selected, element, correct) {
+      const btns = document.querySelectorAll('.listening-opt-btn');
+      btns.forEach(b => b.disabled = true); 
+
+      const feedback = document.getElementById('listening-feedback');
+      feedback.classList.remove('hidden');
+
+      if (selected === correct) {
+        listeningScore++;
+        element.className = "listening-opt-btn bg-emerald-500 text-white p-4 rounded-2xl font-bold border-2 border-emerald-500 shadow-sm pointer-events-none text-center";
+        feedback.className = "p-4 rounded-2xl text-center font-bold bg-emerald-50 text-emerald-800 border border-emerald-200";
+        feedback.innerHTML = `🎉 答对啦！拼写发音完全正确。`;
+      } else {
+        element.className = "listening-opt-btn bg-rose-500 text-white p-4 rounded-2xl font-bold border-2 border-rose-500 shadow-sm pointer-events-none text-center";
+        feedback.className = "p-4 rounded-2xl text-center font-bold bg-rose-50 text-rose-800 border border-rose-200";
+        feedback.innerHTML = `❌ 加油！标准正确拼写是: <strong>${correct}</strong>`;
+        
+        btns.forEach(b => {
+          if (b.innerText === correct) {
+            b.className = "listening-opt-btn bg-emerald-100 text-emerald-800 p-4 rounded-2xl font-bold border-2 border-emerald-500 text-center";
+          }
+        });
+      }
+
+      document.getElementById('listen-next-btn').classList.remove('hidden');
+    }
+
+    function nextListenQuestion() {
+      currentListenIndex++;
+      if (currentListenIndex < 10 && currentListenIndex < listeningQuestions.length) {
+        renderListeningQuestion();
+      } else {
+        showResultsPane(listeningScore, 10);
+      }
+    }
+
+
+    // =====================================
+    // RENDER & MATCH: VISUAL MATCHING (With Elimination / 连对消除)
+    // =====================================
+    let activeMatchSet = [];
+    let selectedLeftId = null;
+    let selectedRightId = null;
+    let matchedCount = 0;
+
+    function buildMatchingGame() {
+      const activeWords = database[activeUnitIndex].words;
+      
+      // Pull 8 random words dynamically to guarantee a fresh experience every reload!
+      activeMatchSet = shuffleArray([...activeWords]).slice(0, 8);
+      matchedCount = 0;
+      selectedLeftId = null;
+      selectedRightId = null;
+
+      document.getElementById('match-score').innerText = '0';
+      
+      const leftCol = document.getElementById('match-col-left');
+      const rightCol = document.getElementById('match-col-right');
+      
+      leftCol.innerHTML = '';
+      rightCol.innerHTML = '';
+
+      const leftShuffled = shuffleArray([...activeMatchSet]);
+      const rightShuffled = shuffleArray([...activeMatchSet]);
+
+      leftShuffled.forEach(item => {
+        const div = document.createElement('button');
+        div.id = `match-left-${item.m.replace(/\s+/g, '-')}`;
+        div.className = "matching-card w-full p-4 bg-white border border-slate-200 rounded-2xl shadow-sm text-center font-bold text-gray-700 hover:bg-sky-50 hover:border-sky-300 transition duration-300 cursor-pointer flex justify-between items-center";
+        div.innerHTML = `
+          <span class="text-xl">${item.e || '🇲🇾'}</span>
+          <span>${item.m}</span>
+          <span class="w-3 h-3 rounded-full border border-sky-300 bg-sky-100 flex-shrink-0"></span>
+        `;
+        div.onclick = () => selectLeftMatch(item.m, div);
+        leftCol.appendChild(div);
+      });
+
+      rightShuffled.forEach(item => {
+        const div = document.createElement('button');
+        div.id = `match-right-${item.m.replace(/\s+/g, '-')}`;
+        div.className = "matching-card w-full p-4 bg-white border border-slate-200 rounded-2xl shadow-sm text-center font-bold text-gray-700 hover:bg-sky-50 hover:border-sky-300 transition duration-300 cursor-pointer flex justify-between items-center";
+        div.innerHTML = `
+          <span class="w-3 h-3 rounded-full border border-sky-300 bg-sky-100 flex-shrink-0"></span>
+          <span>${item.c}</span>
+        `;
+        div.onclick = () => selectRightMatch(item.m, div);
+        rightCol.appendChild(div);
+      });
+    }
+
+    function selectLeftMatch(key, element) {
+      if (selectedLeftId) {
+        document.getElementById(selectedLeftId.elementId).classList.remove('border-sky-500', 'bg-sky-50/70', 'ring-2', 'ring-sky-300');
+      }
+      
+      selectedLeftId = { key, elementId: element.id };
+      element.classList.add('border-sky-500', 'bg-sky-50/70', 'ring-2', 'ring-sky-300');
+      checkMatchingCombination();
+    }
+
+    function selectRightMatch(key, element) {
+      if (selectedRightId) {
+        document.getElementById(selectedRightId.elementId).classList.remove('border-sky-500', 'bg-sky-50/70', 'ring-2', 'ring-sky-300');
+      }
+
+      selectedRightId = { key, elementId: element.id };
+      element.classList.add('border-sky-500', 'bg-sky-50/70', 'ring-2', 'ring-sky-300');
+      checkMatchingCombination();
+    }
+
+    function checkMatchingCombination() {
+      if (selectedLeftId && selectedRightId) {
+        const leftEl = document.getElementById(selectedLeftId.elementId);
+        const rightEl = document.getElementById(selectedRightId.elementId);
+
+        if (selectedLeftId.key === selectedRightId.key) {
+          // Speak standard Malay pronunciation on correct match
+          speakText(selectedLeftId.key);
+
+          // Correct Match: Add animation & eliminate card visually!
+          leftEl.className = "matching-card w-full p-4 bg-emerald-500 border-emerald-500 text-white rounded-2xl text-center font-bold flex justify-between items-center card-eliminated";
+          rightEl.className = "matching-card w-full p-4 bg-emerald-500 border-emerald-500 text-white rounded-2xl text-center font-bold flex justify-between items-center card-eliminated";
+
+          // Remove element from display layout after 400ms transition concludes
+          const targetLeft = leftEl;
+          const targetRight = rightEl;
+          setTimeout(() => {
+            targetLeft.style.display = 'none';
+            targetRight.style.display = 'none';
+          }, 400);
+
+          matchedCount++;
+          document.getElementById('match-score').innerText = matchedCount;
+
+          selectedLeftId = null;
+          selectedRightId = null;
+
+          if (matchedCount === 8) {
+            setTimeout(() => {
+              showResultsPane(8, 8);
+            }, 800);
+          }
+        } else {
+          // Incorrect: Flash rose highlight briefly
+          leftEl.className = "matching-card w-full p-4 bg-rose-50 border-rose-400 text-rose-800 rounded-2xl text-center font-bold flex justify-between items-center";
+          rightEl.className = "matching-card w-full p-4 bg-rose-50 border-rose-400 text-rose-800 rounded-2xl text-center font-bold flex justify-between items-center";
+
+          const resetLeft = leftEl;
+          const resetRight = rightEl;
+          setTimeout(() => {
+            resetLeft.className = "matching-card w-full p-4 bg-white border border-slate-200 rounded-2xl shadow-sm text-center font-bold text-gray-700 hover:bg-sky-50 hover:border-sky-300 transition duration-300 cursor-pointer flex justify-between items-center";
+            resetRight.className = "matching-card w-full p-4 bg-white border border-slate-200 rounded-2xl shadow-sm text-center font-bold text-gray-700 hover:bg-sky-50 hover:border-sky-300 transition duration-300 cursor-pointer flex justify-between items-center";
+          }, 800);
+
+          selectedLeftId = null;
+          selectedRightId = null;
+        }
+      }
+    }
+
+    function resetMatchingGame() {
+      buildMatchingGame();
+    }
+
+
+    // =====================================
+    // RENDER & PLAY: 20-QUESTION UNIT QUIZ (Guaranteed Full Vocabulary Coverage)
+    // =====================================
+    let quizQuestions = [];
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+
+    function buildQuizSystem() {
+      const activeWords = database[activeUnitIndex].words;
+      const questionPool = [];
+
+      // To guarantee "让每一个词汇都学到" (every word is studied/tested),
+      // we must include all words in the current unit!
+      
+      // Step 1: Push every word as Malay -> Chinese question
+      activeWords.forEach(item => {
+        questionPool.push({
+          type: "m2c",
+          term: item.m,
+          answer: item.c,
+          original: item
+        });
+      });
+
+      // Step 2: Push every word as Chinese -> Malay question to ensure multi-directional learning
+      activeWords.forEach(item => {
+        questionPool.push({
+          type: "c2m",
+          term: item.c,
+          answer: item.m,
+          original: item
+        });
+      });
+
+      // Step 3: Shuffle this entire exhaustive coverage pool
+      let combinedPool = shuffleArray(questionPool);
+
+      // Step 4: Ensure exact total of 20 questions
+      if (combinedPool.length >= 20) {
+        quizQuestions = combinedPool.slice(0, 20);
+      } else {
+        // If unit vocabulary is small (e.g. 13 words), pad with additional questions from other units
+        quizQuestions = [...combinedPool];
+        let paddingPool = [];
+        
+        database.forEach((u, uIdx) => {
+          if (uIdx !== activeUnitIndex) {
+            u.words.forEach(item => {
+              paddingPool.push({
+                type: "m2c",
+                term: item.m,
+                answer: item.c,
+                original: item
+              });
+              paddingPool.push({
+                type: "c2m",
+                term: item.c,
+                answer: item.m,
+                original: item
+              });
+            });
+          }
+        });
+        
+        const shuffledPadding = shuffleArray(paddingPool);
+        while (quizQuestions.length < 20 && shuffledPadding.length > 0) {
+          quizQuestions.push(shuffledPadding.pop());
+        }
+      }
+
+      // Final shuffle to blend standard unit words and padding words seamlessly
+      quizQuestions = shuffleArray(quizQuestions);
+      currentQuizIndex = 0;
+      quizScore = 0;
+    }
+
+    function renderQuizQuestion() {
+      const q = quizQuestions[currentQuizIndex];
+      
+      document.getElementById('quiz-progress-text').innerText = `${currentQuizIndex + 1} / 20`;
+      document.getElementById('quiz-progress-bar').style.width = `${((currentQuizIndex + 1) / 20) * 100}%`;
+      document.getElementById('quiz-feedback').classList.add('hidden');
+
+      document.getElementById('quiz-question-type').innerText = q.type === "m2c" ? "根据国语词汇，选出对应华语意思 🇲🇾" : "根据华语意思，选出对应国语词汇 🇨🇳";
+      document.getElementById('quiz-question-text').innerText = q.term;
+
+      // Speak pronunciation if the question term is Malay
+      if (q.type === "m2c") {
+        speakText(q.term);
+      }
+
+      // Build answer options
+      let choices = [q.answer];
+      const distractors = database[activeUnitIndex].words
+        .filter(w => w.m !== q.original.m)
+        .map(w => q.type === "m2c" ? w.c : w.m);
+
+      const shuffledDistractors = shuffleArray(distractors);
+      for (let i = 0; i < 3 && i < shuffledDistractors.length; i++) {
+        choices.push(shuffledDistractors[i]);
+      }
+      
+      if (choices.length < 4) {
+        let globalPool = [];
+        database.forEach(u => {
+          u.words.forEach(w => {
+            const possible = q.type === "m2c" ? w.c : w.m;
+            if (possible !== q.answer && !choices.includes(possible)) {
+              globalPool.push(possible);
+            }
+          });
+        });
+        const shuffledGlobal = shuffleArray(globalPool);
+        while (choices.length < 4 && shuffledGlobal.length > 0) {
+          choices.push(shuffledGlobal.pop());
+        }
+      }
+
+      choices = shuffleArray(choices);
+
+      const container = document.getElementById('quiz-options');
+      container.innerHTML = '';
+
+      choices.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "quiz-opt-btn bg-white hover:bg-slate-50 border border-slate-200 text-left font-bold text-gray-700 py-4 px-6 rounded-2xl shadow-sm transition transform hover:-translate-y-0.5 active:scale-95 flex justify-between items-center";
+        btn.innerHTML = `
+          <span>${opt}</span>
+          <span class="opacity-0 text-emerald-500 font-bold">✓</span>
+        `;
+        btn.onclick = () => checkQuizAnswer(opt, btn, q.answer);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkQuizAnswer(selected, element, correct) {
+      const q = quizQuestions[currentQuizIndex];
+      const btns = document.querySelectorAll('.quiz-opt-btn');
+      btns.forEach(b => b.disabled = true);
+
+      const feedback = document.getElementById('quiz-feedback');
+      feedback.classList.remove('hidden');
+
+      const title = document.getElementById('quiz-feedback-title');
+      const icon = document.getElementById('quiz-feedback-icon');
+      const desc = document.getElementById('quiz-feedback-desc');
+
+      // Trigger standard Malay voice confirmation when spelling out the answer
+      if (q.type === "c2m" && selected === correct) {
+        speakText(correct);
+      } else if (q.type === "c2m") {
+        speakText(correct);
+      }
+
+      if (selected === correct) {
+        quizScore++;
+        element.className = "quiz-opt-btn bg-emerald-500 text-white border border-emerald-500 text-left font-bold py-4 px-6 rounded-2xl shadow-sm transition flex justify-between items-center";
+        element.querySelector('span:last-child').className = "text-white font-bold opacity-100";
+        
+        icon.innerText = "🎉";
+        title.className = "font-bold text-lg text-emerald-800";
+        title.innerText = "回答正确！很优秀！";
+        desc.innerText = `拼写配对关系完美正确。`;
+      } else {
+        element.className = "quiz-opt-btn bg-rose-500 text-white border border-rose-500 text-left font-bold py-4 px-6 rounded-2xl shadow-sm transition flex justify-between items-center";
+        
+        btns.forEach(b => {
+          if (b.innerText.includes(correct)) {
+            b.className = "quiz-opt-btn bg-emerald-50 border border-emerald-500 text-emerald-900 text-left font-bold py-4 px-6 rounded-2xl shadow-sm transition flex justify-between items-center";
+            b.querySelector('span:last-child').className = "text-emerald-500 font-bold opacity-100";
+          }
+        });
+
+        icon.innerText = "💡";
+        title.className = "font-bold text-lg text-rose-800";
+        title.innerText = "别气馁！下一题加油";
+        desc.innerText = `正确答案应该是: ${correct}`;
+      }
+    }
+
+    function nextQuizQuestion() {
+      currentQuizIndex++;
+      if (currentQuizIndex < 20) {
+        renderQuizQuestion();
+      } else {
+        showResultsPane(quizScore, 20);
+      }
+    }
+
+
+    // =====================================
+    // CORE NAVIGATION & MAIN APP CONTROL
+    // =====================================
+    function switchUnit(idx) {
+      activeUnitIndex = idx;
+      
+      document.querySelectorAll('.unit-btn').forEach((b, i) => {
+        if (i === idx) {
+          b.className = "unit-btn w-full flex items-center justify-between p-3.5 rounded-xl transition text-left bg-sky-50 border border-sky-100 text-sky-700 font-semibold";
+          b.querySelector('span:last-child').className = "text-xs bg-sky-200 text-sky-800 px-2 py-0.5 rounded-full font-bold";
+        } else {
+          b.className = "unit-btn w-full flex items-center justify-between p-3.5 rounded-xl transition text-left text-gray-600 hover:bg-gray-50 border border-transparent";
+          b.querySelector('span:last-child').className = "text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-bold";
+        }
+      });
+
+      document.getElementById('current-unit-title').innerHTML = `
+        <span>${database[idx].emoji}</span>
+        <span>${database[idx].title}</span>
+      `;
+
+      restartActiveTab();
+    }
+
+    function switchTab(tabId) {
+      activeTab = tabId;
+
+      document.querySelectorAll('.learning-tab').forEach(b => {
+        if (b.id === `tab-${tabId}`) {
+          b.className = "learning-tab flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition border bg-sky-500 border-sky-500 text-white shadow-sm";
+        } else {
+          b.className = "learning-tab flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition border border-gray-200 bg-white text-gray-600 hover:bg-gray-50";
+        }
+      });
+
+      document.querySelectorAll('.workspace-pane').forEach(p => p.classList.add('hidden'));
+      document.getElementById('pane-results').classList.add('hidden');
+      document.getElementById(`pane-${tabId}`).classList.remove('hidden');
+
+      restartActiveTab();
+    }
+
+    function restartActiveTab() {
+      document.getElementById('pane-results').classList.add('hidden');
+      document.getElementById(`pane-${activeTab}`).classList.remove('hidden');
+
+      if (activeTab === 'flashcards') {
+        renderFlashcards();
+      } else if (activeTab === 'listening') {
+        buildListeningTest();
+        renderListeningQuestion();
+      } else if (activeTab === 'matching') {
+        buildMatchingGame();
+      } else if (activeTab === 'quiz') {
+        buildQuizSystem();
+        renderQuizQuestion();
+      }
+    }
+
+    function showResultsPane(earned, total) {
+      document.querySelectorAll('.workspace-pane').forEach(p => p.classList.add('hidden'));
+      
+      const resPane = document.getElementById('pane-results');
+      resPane.classList.remove('hidden');
+
+      const textEl = document.getElementById('results-score-text');
+      const evalEl = document.getElementById('results-evaluation');
+
+      textEl.innerText = `${earned} / ${total}`;
+
+      const percent = (earned / total) * 100;
+      if (percent === 100) {
+        evalEl.innerText = "🏆 完美全对！真是太聪明了！";
+        evalEl.className = "text-sm font-bold text-emerald-600";
+      } else if (percent >= 80) {
+        evalEl.innerText = "🌟 非常出色！你已经掌握了全部单词。";
+        evalEl.className = "text-sm font-bold text-sky-600";
+      } else if (percent >= 60) {
+        evalEl.innerText = "👍 表现不错！继续练习哦！";
+        evalEl.className = "text-sm font-bold text-amber-600";
+      } else {
+        evalEl.innerText = "📚 还需要再接再厉哦！建议返回词卡温习。";
+        evalEl.className = "text-sm font-bold text-rose-500";
+      }
+    }
+
+    // Helper: Shuffle Array Utility
+    function shuffleArray(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function toggleSidebarMobile() {
+      const sidebar = document.querySelector('aside');
+      sidebar.classList.toggle('hidden');
+    }
+
+    window.onload = function() {
+      switchUnit(0);
+      loadVoices();
+    };
+  </script>
+</body>
+</html>
